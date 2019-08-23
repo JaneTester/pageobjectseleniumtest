@@ -1,0 +1,48 @@
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.concurrent.TimeUnit;
+
+public class MainPageTest {
+    private WebDriver driver;
+    private MainPage mainPage;
+
+    @Before
+    public void setUp() {
+        System.setProperty("webdriver.gecko.driver", "C:\\Users\\Melkish\\IdeaProjects\\pageobjectseleniumtest\\drivers\\geckodriver.exe");
+        driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+        driver.get("https://github.com");
+        mainPage = new MainPage(driver);
+    }
+
+    @Test
+    public void SignInTest() {
+        LoginPage loginPage = mainPage.ClickSignIn();
+        String heading = loginPage.GetHeadingText();
+        Assert.assertEquals("Sign in to GitHub", heading);
+    }
+
+    @Test
+    public void registerFailTest() {
+        SignUpPage signUpPage = mainPage.register("testuser", "testmail", "testuserPa$$word");
+        String error = signUpPage.getMainErrorText();
+        Assert.assertEquals("There were problems creating your account.", error);
+    }
+    @Test
+    public void signUpEmptyUsernameTest (){
+        SignUpPage signUpPage = mainPage.register("", "testmail", "testuserPa$$word");
+        String error = signUpPage.getNameErrorText();
+        Assert.assertEquals("Username can't be blank", error);
+    }
+
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
+}

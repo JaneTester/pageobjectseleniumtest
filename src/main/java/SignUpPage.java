@@ -14,9 +14,11 @@ public class SignUpPage {
     private By passwordField =By.xpath("//input[@id='user_password']");
     private By signUpButton = By.xpath("//button[@id='signup_button']");
     private By mainError = By.xpath("//div[@class='flash flash-error my-3']");
-    private By nameError = By.xpath("//dd[@id='description_f82cf5aef93f']");
-    private By emailError = By.xpath("//dd[@id='description_63ae39d63530']");
-    private By passwordError = By.xpath("//dd[@id='description_aac9336c0279']");
+    private By nameError = By.xpath("//form[@id='signup-form']//input[@id='user_login']/ancestor::dd/following-sibling::dd");
+    private By emailError = By.xpath("//form[@id='signup-form']//input[@id='user_email']/ancestor::dd/following-sibling::dd");
+    private By passwordError = By.xpath("//form[@id='signup-form']//input[@id='user_password']/ancestor::dd/following-sibling::dd");
+    private By nameReservedError = By.xpath("//form[@id='signup-form']//input[@id='user_login']/ancestor::dd//div/div");
+    private By passwordshotError = By.xpath("//form[@id='signup-form']//password-strength[@invalid-message='Password is invalid.']//p[@class='note mb-3']");
 
     public SignUpPage typeLogin (String login) {
         driver.findElement(userNameField).sendKeys(login);
@@ -38,19 +40,13 @@ public class SignUpPage {
         return new SignUpPage(driver);
     }
 
-    public String GetHeadingText() {
+    public String getHeadingText() {
         return driver.findElement(heading).getText();
     }
-    public String GetMainErrorText() {
-        return driver.findElement(mainError).getText();
-    }
-    public String GetNameErrorText() {
-        return driver.findElement(nameError).getText();
-    }
-    public String GetEmailErrorText() {
-        return driver.findElement(emailError).getText();
-    }
-    public String GetPasswordErrorText() {
-        return driver.findElement(passwordError).getText();
-    }
+    public String getMainErrorText(){return driver.findElement(mainError).getText();}
+    public String getNameErrorText(){return driver.findElement(nameError).getText();}
+    public String getMailErrorText(){ return driver.findElement(emailError).getText();}
+    public String getPasswordErrorText() {return driver.findElement(passwordError).getText();}
+    public String getnameReservedErrorText () {return driver.findElement(nameReservedError).getText();}
+    public String getpasswordshotErrorText () {return driver.findElement(passwordshotError).getText();}
 }
